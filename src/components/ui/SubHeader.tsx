@@ -3,12 +3,14 @@ import { Text } from "react-native";
 import { View } from "react-native";
 import { Font } from "../../constants/theme.const";
 import { heightPercentageToDP, widthPercentageToDP } from "react-native-responsive-screen";
+import { useColorScheme } from "nativewind";
 
 interface Props {
   text: string;
 }
 
 const SubHeader = ({ text }: Props) => {
+  const { colorScheme } = useColorScheme();
   return (
     <View className="px-5 flex-row items-center justify-between space-x-2">
       <Text
@@ -17,7 +19,10 @@ const SubHeader = ({ text }: Props) => {
       >
         {text}
       </Text>
-      <Text className="text-gray-700 font-semibold" style={{ fontFamily: Font.bold, fontSize: heightPercentageToDP(1.9) }}>
+      <Text
+        className={`${colorScheme === "light" ? "text-gray-700" : "text-neutral-200"} font-semibold`}
+        style={{ fontFamily: Font.bold, fontSize: heightPercentageToDP(1.9) }}
+      >
         View All
       </Text>
     </View>

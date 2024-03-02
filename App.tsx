@@ -15,12 +15,15 @@ import IonIcons from "@expo/vector-icons/Ionicons";
 import { useColorScheme } from "nativewind";
 import { Font } from "./src/constants/theme.const";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const Stack = createNativeStackNavigator<RootNavigator>();
 const BottomTab = createBottomTabNavigator<BottomTabs>();
 
+const queryClient = new QueryClient();
+
 export default function App() {
-  const { colorScheme, toggleColorScheme } = useColorScheme();
+  const { colorScheme } = useColorScheme();
 
   const isDarkMode = colorScheme === "dark";
 
@@ -61,14 +64,16 @@ export default function App() {
   };
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Splash" screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Splash" component={Splash} />
-        <Stack.Screen name="Welcome" component={Welcome} />
-        <Stack.Screen name="Search" component={Search} />
-        <Stack.Screen name="NewsDetails" component={NewsDetails} options={{ animation: "slide_from_bottom" }} />
-        <Stack.Screen name="BottomTabs" component={BottomTabNavigation} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <QueryClientProvider client={queryClient}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Splash" screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Splash" component={Splash} />
+          <Stack.Screen name="Welcome" component={Welcome} />
+          <Stack.Screen name="Search" component={Search} />
+          <Stack.Screen name="NewsDetails" component={NewsDetails} options={{ animation: "slide_from_bottom" }} />
+          <Stack.Screen name="BottomTabs" component={BottomTabNavigation} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </QueryClientProvider>
   );
 }

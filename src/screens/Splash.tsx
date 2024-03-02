@@ -1,5 +1,5 @@
 import { View, Text, ImageBackground } from "react-native";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useFonts } from "expo-font";
 import { Font } from "../constants/theme.const";
 import * as SplashScreen from "expo-splash-screen";
@@ -16,20 +16,22 @@ const Splash = () => {
     [Font.original]: require("../../assets/fonts/Poppins-Regular.ttf"),
   });
 
-  useEffect(() => {
-    (async () => {
-      if (fontLoaded && !fontError) {
-        await SplashScreen.hideAsync();
-      }
+  const onLayoutChange = useCallback(async () => {
+    if (fontLoaded && !fontError) {
+      await SplashScreen.hideAsync();
+    }
 
-      setTimeout(() => {
-        navigation.navigate("Welcome");
-      }, 2000);
-    })();
+    setTimeout(() => {
+      navigation.navigate("Welcome");
+    }, 2000);
   }, [fontLoaded, fontError]);
 
+  useEffect(() => {
+    onLayoutChange();
+  });
+
   return (
-    <View className="flex-1">
+    <View className="flex-1" onLayout={onLayoutChange}>
       <ImageBackground source={require("../../assets/images/reporter.jpg")} className="flex-1 w-full justify-center items-center">
         <LinearGradient
           colors={["rgba(1, 44, 1, 0.4)", "rgba(2, 44, 2, 0.8)"]}
