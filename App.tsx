@@ -22,6 +22,8 @@ const BottomTab = createBottomTabNavigator<BottomTabs>();
 export default function App() {
   const { colorScheme, toggleColorScheme } = useColorScheme();
 
+  const isDarkMode = colorScheme === "dark";
+
   const BottomTabNavigation = () => {
     return (
       <BottomTab.Navigator
@@ -39,19 +41,20 @@ export default function App() {
                 iconName = "bookmarks";
               }
 
-              return <IonIcons name={iconName as any} size={26} color={focused ? "green" : "#222"} />;
+              return <IonIcons name={iconName as any} size={26} color={focused ? "green" : isDarkMode ? "lightgrey" : "#222"} />;
             },
 
             tabBarLabelStyle: { fontWeight: "bold", fontSize: wp(3) },
             tabBarActiveTintColor: "green",
-            tabBarInactiveTintColor: "grey",
+            tabBarInactiveTintColor: isDarkMode ? "lightgrey" : "grey",
             headerShown: false,
+            tabBarStyle: { backgroundColor: isDarkMode ? "#222" : "white" },
           };
         }}
       >
         <BottomTab.Screen name="Home" component={Home} />
         <BottomTab.Screen name="Discover" component={Discover} />
-        <BottomTab.Screen name="SavedNews" component={SavedNews} />
+        <BottomTab.Screen name="SavedNews" options={{ tabBarLabel: "Saved" }} component={SavedNews} />
         <BottomTab.Screen name="Search" component={Search} />
       </BottomTab.Navigator>
     );
