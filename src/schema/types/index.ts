@@ -1,3 +1,5 @@
+import { NavigatorScreenParams } from "@react-navigation/native";
+
 export type BottomTabs = {
   Home: undefined;
   Discover: undefined;
@@ -10,5 +12,5 @@ export type RootNavigator = {
   Welcome: undefined;
   Search: undefined;
   NewsDetails: undefined;
-  BottomTabs: BottomTabs;
+  BottomTabs: NavigatorScreenParams<BottomTabs>;
 };

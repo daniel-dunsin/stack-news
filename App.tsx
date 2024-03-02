@@ -12,11 +12,16 @@ import Splash from "./src/screens/Splash";
 import Welcome from "./src/screens/Welcome";
 import NewsDetails from "./src/screens/NewsDetails";
 import IonIcons from "@expo/vector-icons/Ionicons";
+import { useColorScheme } from "nativewind";
+import { Font } from "./src/constants/theme.const";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 
 const Stack = createNativeStackNavigator<RootNavigator>();
 const BottomTab = createBottomTabNavigator<BottomTabs>();
 
 export default function App() {
+  const { colorScheme, toggleColorScheme } = useColorScheme();
+
   const BottomTabNavigation = () => {
     return (
       <BottomTab.Navigator
@@ -34,8 +39,13 @@ export default function App() {
                 iconName = "bookmarks";
               }
 
-              return <IonIcons name="bookmarks" size={26} color={focused ? "green" : "#222"} />;
+              return <IonIcons name={iconName as any} size={26} color={focused ? "green" : "#222"} />;
             },
+
+            tabBarLabelStyle: { fontWeight: "bold", fontSize: wp(3) },
+            tabBarActiveTintColor: "green",
+            tabBarInactiveTintColor: "grey",
+            headerShown: false,
           };
         }}
       >
@@ -49,7 +59,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="BottomTabs" screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName="Splash" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="Search" component={Search} />
