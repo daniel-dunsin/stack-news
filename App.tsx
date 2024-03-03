@@ -21,8 +21,7 @@ const Stack = createNativeStackNavigator<RootNavigator>();
 const BottomTab = createBottomTabNavigator<BottomTabs>();
 
 const queryClient = new QueryClient();
-
-export default withExpoSnack(function App() {
+function App() {
   const { colorScheme } = useColorScheme();
 
   const isDarkMode = colorScheme === "dark";
@@ -32,6 +31,7 @@ export default withExpoSnack(function App() {
       <BottomTab.Navigator
         screenOptions={({ route }) => {
           return {
+            tabBarHideOnKeyboard: true,
             tabBarIcon: ({ focused }) => {
               let iconName = "";
               if (route.name === "Home") {
@@ -44,7 +44,7 @@ export default withExpoSnack(function App() {
                 iconName = "bookmarks";
               }
 
-              return <IonIcons name={iconName as any} size={26} color={focused ? "green" : isDarkMode ? "lightgrey" : "#222"} />;
+              return <IonIcons name={iconName as any} size={26} color={focused ? "green" : isDarkMode ? "lightgrey" : "#444"} />;
             },
 
             tabBarLabelStyle: { fontWeight: "bold", fontSize: wp(3) },
@@ -76,4 +76,6 @@ export default withExpoSnack(function App() {
       </NavigationContainer>
     </QueryClientProvider>
   );
-});
+}
+
+export default withExpoSnack(App);

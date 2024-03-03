@@ -1,4 +1,4 @@
-export enum NewCategories {
+export enum NewsCategories {
   HEALTH = "health",
   ENTERTAINMENT = "entertainment",
   GENERAL = "general",
