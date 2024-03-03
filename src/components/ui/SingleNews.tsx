@@ -1,13 +1,16 @@
 import { View, Text, Image } from "react-native";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useLayoutEffect, useMemo } from "react";
 import { News } from "../../schema/interfaces/news.interface";
 import { Font } from "../../constants/theme.const";
 import { heightPercentageToDP } from "react-native-responsive-screen";
 import { BookmarkIcon } from "react-native-heroicons/solid";
 import { useColorScheme } from "nativewind";
 import { bookmarkNews, checkNewsInBookmarks, removeNewsFromBookmark } from "../../utils/news.utils";
+import { useFocusEffect } from "@react-navigation/native";
 
-interface Props extends News {}
+interface Props extends News {
+  onBookmark?: () => void;
+}
 
 const SingleNews = (props: Props) => {
   const [inBookmark, setInBookmark] = React.useState<boolean>(false);
@@ -21,14 +24,16 @@ const SingleNews = (props: Props) => {
       await bookmarkNews(props);
       setInBookmark(true);
     }
+
+    props.onBookmark && props.onBookmark();
   }, [inBookmark]);
 
-  useEffect(() => {
-    async () => {
+  useFocusEffect(() => {
+    (async () => {
       const inBookmark = await checkNewsInBookmarks(props);
       setInBookmark(inBookmark);
-    };
-  }, [inBookmark]);
+    })();
+  });
 
   return (
     <View className="flex-row justify-between items-center gap-x-6 my-2">

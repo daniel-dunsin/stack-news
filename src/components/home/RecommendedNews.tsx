@@ -24,7 +24,7 @@ const RecommendedNews = () => {
             data={data?.slice(0, 40)}
             showsVerticalScrollIndicator={false}
             renderItem={({ item }) => <SingleNews {...item} />}
-            keyExtractor={(item, index) => index.toString()}
+            keyExtractor={(item, index) => item.urlToImage + item.title + index.toString()}
           />
         </ScrollView>
       )}

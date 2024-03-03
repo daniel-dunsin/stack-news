@@ -45,7 +45,7 @@ const BreakingNews = () => {
               </LinearGradient>
             </View>
           )}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(item, index) => item.urlToImage + item.title + index.toString()}
           autoplay={true}
         />
       )}
