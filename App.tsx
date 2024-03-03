@@ -69,7 +69,7 @@ function App() {
         <Stack.Navigator initialRouteName="Splash" screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Splash" component={Splash} />
           <Stack.Screen name="Welcome" component={Welcome} />
-          <Stack.Screen name="Search" component={Search} />
+          <Stack.Screen name="Search" component={Search} options={{ animation: "slide_from_bottom" }} />
           <Stack.Screen name="NewsDetails" component={NewsDetails} options={{ animation: "slide_from_bottom" }} />
           <Stack.Screen name="BottomTabs" component={BottomTabNavigation} />
         </Stack.Navigator>

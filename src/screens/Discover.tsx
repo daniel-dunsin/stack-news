@@ -1,4 +1,4 @@
-import { View, Text, TextInput, ScrollView, FlatList, RefreshControl } from "react-native";
+import { View, Text, TextInput, ScrollView, FlatList, RefreshControl, Pressable } from "react-native";
 import React, { useCallback, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
@@ -11,8 +11,10 @@ import SingleCategory from "../components/ui/SingleCategory";
 import { useGetNews } from "../services";
 import Loader from "../components/ui/Loader";
 import SingleNews from "../components/ui/SingleNews";
+import useNavigation from "../hooks/useNavigation";
 
 const Discover = () => {
+  const navigation = useNavigation();
   const { colorScheme } = useColorScheme();
   const [selectedCategory, setSelectedCategory] = useState<NewsCategories>(NewsCategories.HEALTH);
 
@@ -37,10 +39,12 @@ const Discover = () => {
           News from all over the world
         </Text>
 
-        <View className="mt-4 flex-row rounded-full bg-neutral-200 dark:bg-white px-4  items-center">
-          <MagnifyingGlassIcon size={20} color={colorScheme === "dark" ? "green" : "gray"} />
-          <TextInput className="py-2 ml-2 flex-1" placeholder="Search for news" />
-        </View>
+        <Pressable onPress={() => navigation.navigate("Search")}>
+          <View className="mt-4 flex-row rounded-full bg-neutral-200 dark:bg-white px-4  items-center">
+            <MagnifyingGlassIcon size={20} color={colorScheme === "dark" ? "green" : "gray"} />
+            <TextInput onFocus={() => navigation.navigate("Search")} className="py-2 ml-2 flex-1" placeholder="Search for news" />
+          </View>
+        </Pressable>
 
         {/* Categories */}
         <ScrollView

@@ -11,6 +11,6 @@ export type RootNavigator = {
   Splash: undefined;
   Welcome: undefined;
   Search: undefined;
-  NewsDetails: undefined;
+  NewsDetails?: { url: string };
   BottomTabs: NavigatorScreenParams<BottomTabs>;
 };

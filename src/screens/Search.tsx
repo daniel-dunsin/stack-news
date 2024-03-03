@@ -8,15 +8,16 @@ import { debounce } from "lodash";
 import { useSearchNews } from "../services";
 import SingleNews from "../components/ui/SingleNews";
 import Loader from "../components/ui/Loader";
+import useNavigation from "../hooks/useNavigation";
 
 const Search = () => {
+  const { goBack, canGoBack } = useNavigation();
   const { colorScheme } = useColorScheme();
   const [text, setText] = useState<string>("");
 
   const { data, mutate, isPending } = useSearchNews(text);
 
   const handleChangeText = async (text: string) => {
-    setText(text);
     if (text.length >= 3) {
       await mutate();
     }
@@ -30,8 +31,21 @@ const Search = () => {
       <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
 
       <View className="mt-4 flex-row rounded-md bg-neutral-200 dark:bg-white px-4  items-center">
-        <TextInput value={text} onChangeText={onChangeText} className="py-2 ml-2 flex-1" placeholder="Search for news" />
-        <XMarkIcon strokeWidth={5} size={22} color={colorScheme === "dark" ? "green" : "gray"} />
+        <TextInput
+          value={text}
+          onChangeText={(text) => {
+            setText(text);
+            onChangeText(text);
+          }}
+          className="py-2 ml-2 flex-1"
+          placeholder="Search for news"
+        />
+        <XMarkIcon
+          onPress={() => canGoBack() && goBack()}
+          strokeWidth={5}
+          size={22}
+          color={colorScheme === "dark" ? "green" : "gray"}
+        />
       </View>
 
       <View className="mt-3">
