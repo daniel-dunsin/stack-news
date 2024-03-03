@@ -1,7 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import http from "../../axios.config";
 import { News } from "../schema/interfaces/news.interface";
-import { useQueryResults } from "../schema/interfaces/query.interface";
+import { useMutateResult, useQueryResults } from "../schema/interfaces/query.interface";
 import { Platform } from "react-native";
 import { NewsCategories } from "../schema/enums/news.enum";
 import { useEffect } from "react";
@@ -67,5 +67,25 @@ export const useGetNews = (category: NewsCategories): useQueryResults<News[]> =>
     refetch,
     isError,
     isRefetching,
+  };
+};
+
+export const useSearchNews = (search: string): useMutateResult<News[], string> => {
+  const { data, isPending, mutateAsync, isError } = useMutation<News[]>({
+    mutationKey: ["useSearchNews", search],
+    mutationFn: async () => {
+      const response = await http.get(`/everything?q=${search}`);
+
+      return response?.data?.articles;
+    },
+  });
+
+  console.log(data);
+
+  return {
+    mutate: mutateAsync,
+    data,
+    isPending,
+    isError,
   };
 };

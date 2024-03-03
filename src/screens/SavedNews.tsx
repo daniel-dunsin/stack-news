@@ -5,7 +5,7 @@ import { useColorScheme } from "nativewind";
 import { widthPercentageToDP } from "react-native-responsive-screen";
 import { Font } from "../constants/theme.const";
 import { News } from "../schema/interfaces/news.interface";
-import { getBookmarkedNews } from "../utils/news.utils";
+import { getBookmarkedNews, removeBookmarkedNews } from "../utils/news.utils";
 import SingleNews from "../components/ui/SingleNews";
 import { useFocusEffect } from "@react-navigation/native";
 
@@ -36,7 +36,14 @@ const SavedNews = () => {
           Saved Articles
         </Text>
 
-        <TouchableOpacity className="bg-green-800 py-2 px-4 rounded-md">
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={async () => {
+            await removeBookmarkedNews();
+            setNews([]);
+          }}
+          className="bg-green-800 py-2 px-4 rounded-md"
+        >
           <Text className="text-white" style={{ fontFamily: Font.original }}>
             CLEAR
           </Text>

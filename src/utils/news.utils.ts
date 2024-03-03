@@ -24,13 +24,13 @@ export const getBookmarkedNews = async (): Promise<News[]> => {
     news = [];
   }
 
-  return news;
+  return news || [];
 };
 
 export const checkNewsInBookmarks = async (news: News): Promise<boolean> => {
   const bookmarks = await getBookmarkedNews();
 
-  const inBookmarks = bookmarks.find(
+  const inBookmarks = bookmarks?.find(
     (bookmark) => `${bookmark.title}${bookmark.author}${bookmark.url}` === `${news.title}${news.author}${news.url}`
   );
 
@@ -45,4 +45,8 @@ export const removeNewsFromBookmark = async (news: News) => {
   );
 
   await AsyncStorage.setItem("news", JSON.stringify(bookmarks));
+};
+
+export const removeBookmarkedNews = async () => {
+  await AsyncStorage.removeItem("news");
 };

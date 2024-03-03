@@ -5,3 +5,10 @@ export interface useQueryResults<T> {
   isError: boolean;
   isRefetching?: boolean;
 }
+
+export interface useMutateResult<Result, FunctionParam = string> {
+  data: Result | undefined;
+  mutate: Function;
+  isPending: boolean;
+  isError: boolean;
+}
