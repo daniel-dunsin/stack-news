@@ -12,7 +12,7 @@ import Splash from "./src/screens/Splash";
 import Welcome from "./src/screens/Welcome";
 import NewsDetails from "./src/screens/NewsDetails";
 import IonIcons from "@expo/vector-icons/Ionicons";
-import { useColorScheme } from "nativewind";
+import { useColorScheme, withExpoSnack } from "nativewind";
 import { Font } from "./src/constants/theme.const";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -22,7 +22,7 @@ const BottomTab = createBottomTabNavigator<BottomTabs>();
 
 const queryClient = new QueryClient();
 
-export default function App() {
+export default withExpoSnack(function App() {
   const { colorScheme } = useColorScheme();
 
   const isDarkMode = colorScheme === "dark";
@@ -76,4 +76,4 @@ export default function App() {
       </NavigationContainer>
     </QueryClientProvider>
   );
-}
+});
