@@ -1,8 +1,8 @@
 import { News } from "../schema/interfaces/news.interface";
-import * as SecureStore from "expo-secure-store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const bookmarkNews = async (news: News) => {
-  let allNews: News[] | string | null = await SecureStore.getItemAsync("news");
+  let allNews: News[] | string | null = (await AsyncStorage.getItem("news")) || [];
 
   try {
     allNews = <News[]>JSON.parse(allNews as string);
@@ -12,11 +12,11 @@ export const bookmarkNews = async (news: News) => {
 
   allNews = [...allNews, news];
 
-  await SecureStore.setItemAsync("news", JSON.stringify(allNews));
+  await AsyncStorage.setItem("news", JSON.stringify(allNews));
 };
 
 export const getBookmarkedNews = async (): Promise<News[]> => {
-  let news: News[] | string | null = await SecureStore.getItemAsync("news");
+  let news: News[] | string | null = await AsyncStorage.getItem("news");
 
   try {
     news = <News[]>JSON.parse(news as string);
@@ -35,4 +35,14 @@ export const checkNewsInBookmarks = async (news: News): Promise<boolean> => {
   );
 
   return inBookmarks ? true : false;
+};
+
+export const removeNewsFromBookmark = async (news: News) => {
+  let bookmarks = await getBookmarkedNews();
+
+  bookmarks = bookmarks.filter(
+    (bookmark) => `${bookmark.title}${bookmark.author}${bookmark.url}` !== `${news.title}${news.author}${news.url}`
+  );
+
+  await AsyncStorage.setItem("news", JSON.stringify(bookmarks));
 };

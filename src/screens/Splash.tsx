@@ -32,12 +32,15 @@ const Splash = () => {
 
   return (
     <View className="flex-1" onLayout={onLayoutChange}>
-      <ImageBackground source={require("../../assets/images/reporter.jpg")} className="flex-1 w-full justify-center items-center">
+      <ImageBackground
+        source={require("../../assets/images/reporter.jpg")}
+        className="flex-1 w-full h-full justify-center items-center"
+      >
         <LinearGradient
           colors={["rgba(1, 44, 1, 0.4)", "rgba(2, 44, 2, 0.8)"]}
           start={{ x: 0.5, y: 0 }}
           end={{ x: 0.5, y: 1 }}
-          className="absolute flex-1 h-full w-full justify-center items-center"
+          className="absolute top-0 left-0 flex-1 h-full w-full justify-center items-center"
         >
           <Text className="font-bold text-white" style={{ fontSize: heightPercentageToDP(3.5) }}>
             STACK NEWS

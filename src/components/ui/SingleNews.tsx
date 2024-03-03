@@ -1,15 +1,35 @@
 import { View, Text, Image } from "react-native";
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { News } from "../../schema/interfaces/news.interface";
 import { Font } from "../../constants/theme.const";
 import { heightPercentageToDP } from "react-native-responsive-screen";
-import { BookmarkIcon } from "react-native-heroicons/outline";
+import { BookmarkIcon } from "react-native-heroicons/solid";
 import { useColorScheme } from "nativewind";
+import { bookmarkNews, checkNewsInBookmarks, removeNewsFromBookmark } from "../../utils/news.utils";
 
 interface Props extends News {}
 
 const SingleNews = (props: Props) => {
+  const [inBookmark, setInBookmark] = React.useState<boolean>(false);
   const { colorScheme } = useColorScheme();
+
+  const onBookmark = React.useCallback(async () => {
+    if (inBookmark) {
+      await removeNewsFromBookmark(props);
+      setInBookmark(false);
+    } else {
+      await bookmarkNews(props);
+      setInBookmark(true);
+    }
+  }, [inBookmark]);
+
+  useEffect(() => {
+    async () => {
+      const inBookmark = await checkNewsInBookmarks(props);
+      setInBookmark(inBookmark);
+    };
+  }, [inBookmark]);
+
   return (
     <View className="flex-row justify-between items-center gap-x-6 my-2">
       <Image
@@ -34,7 +54,7 @@ const SingleNews = (props: Props) => {
       </View>
 
       <View>
-        <BookmarkIcon size={20} color={colorScheme === "light" ? "grey" : "white"} />
+        <BookmarkIcon onPress={onBookmark} size={20} color={inBookmark ? "green" : colorScheme === "light" ? "grey" : "white"} />
       </View>
     </View>
   );
