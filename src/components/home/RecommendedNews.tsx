@@ -17,7 +17,7 @@ const RecommendedNews = () => {
       {isLoading ? (
         <Loader />
       ) : (
-        <ScrollView className="px-5 mt-6" showsVerticalScrollIndicator={false}>
+        <ScrollView className="mt-6" contentContainerStyle={{ paddingHorizontal: 20 }} showsVerticalScrollIndicator={false}>
           <FlatList
             scrollEnabled={false}
             nestedScrollEnabled={true}
